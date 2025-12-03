@@ -14,7 +14,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-6">
           
           {/* LOGO */}
-          <img src="/logo.png" alt="Logo Branding Emoción" className="h-16 mx-auto mb-6" />
+          <img src="slides/loga1.png" alt="Logo Branding Emoción" className="h-16 mx-auto mb-6" />
 
           {/* REDES (Añadidas para utilidad) */}
           <div className="flex items-center justify-center gap-6 text-white text-2xl mb-8">
