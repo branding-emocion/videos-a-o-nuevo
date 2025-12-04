@@ -1,69 +1,87 @@
-export default function NavTabs() {
-  // Clase base para los enlaces.
-  // 🛑 AUMENTADO: px-8 (antes era px-6) para hacer cada pestaña más ancha
-  const baseLinkClass = "px-8 py-2 rounded-full transition duration-300 ease-in-out font-semibold text-base whitespace-nowrap"; 
-  
-  // Clase para el enlace normal
-  const defaultLinkClass = "text-gray-700 hover:bg-blue-100 hover:text-blue-900"; 
-  
-  // Clase para el enlace activo
-  const activeLinkClass = "bg-cyan-500 text-white shadow-md"; 
+"use client";
 
-  // Simulamos que "Características" es la pestaña activa para el ejemplo
-  const activeTab = "caracteristicas"; 
+import { useEffect, useState } from "react";
+
+export default function NavTabs() {
+
+  const sections = [
+    "razones",
+    "caracteristicas",
+    "pasos",
+    "videos",
+    "planes",
+    "clientes",
+  ];
+
+  const [activeTab, setActiveTab] = useState("");
+
+  // ===========================
+  // SCROLLSPY: Detect section visible
+  // ===========================
+  useEffect(() => {
+    const observers = [];
+
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveTab(id);
+            }
+          });
+        },
+        {
+          root: null,
+          rootMargin: "-50% 0px -50% 0px", // punto medio de pantalla
+          threshold: 0,
+        }
+      );
+
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((obs) => obs.disconnect());
+  }, []);
+
+  // ===========================
+  // STYLES
+  // ===========================
+  const baseLinkClass =
+    "px-8 py-2 rounded-full transition duration-300 ease-in-out font-semibold text-base whitespace-nowrap";
+
+  const defaultLinkClass =
+    "text-gray-700 hover:bg-blue-100 hover:text-blue-900";
+
+  const activeLinkClass =
+    "bg-cyan-500 text-white shadow-md";
 
   return (
-    // Contenedor exterior (manteniendo el sticky y el top)
-    // 🛑 AUMENTO EL ESPACIADO VERTICAL EXTERNO: py-5 (antes era py-4)
-    <div className="w-full bg-blue-50 py-5 sticky top-[70px] z-40"> 
-      <div className="max-w-7xl mx-auto px-6"> 
-        {/* Barra blanca ajustada al contenido */}
-        {/* 🛑 AUMENTO EL ESPACIADO VERTICAL INTERNO: py-3 (antes era py-2)
-            🛑 AUMENTO LA SEPARACIÓN HORIZONTAL: gap-8 (antes era gap-6)
-        */}
-        <div className="bg-white rounded-full shadow-lg py-3 flex justify-center mx-auto max-w-5xl px-6 gap-8">
-          
-          <a 
-            href="#razones" 
-            className={`${baseLinkClass} ${activeTab === "razones" ? activeLinkClass : defaultLinkClass}`}
-          >
-            Razones
-          </a>
-          
-          <a 
-            href="#caracteristicas" 
-            className={`${baseLinkClass} ${activeTab === "caracteristicas" ? activeLinkClass : defaultLinkClass}`}
-          >
-            Características
-          </a>
-          
-          <a 
-            href="#pasos" 
-            className={`${baseLinkClass} ${activeTab === "pasos" ? activeLinkClass : defaultLinkClass}`}
-          >
-            Pasos
-          </a>
-          
-          <a 
-            href="#videos" 
-            className={`${baseLinkClass} ${activeTab === "videos" ? activeLinkClass : defaultLinkClass}`}
-          >
-            Videos
-          </a>
-          
-          <a 
-            href="#planes" 
-            className={`${baseLinkClass} ${activeTab === "planes" ? activeLinkClass : defaultLinkClass}`}
-          >
-            Planes
-          </a>
-          
-          <a 
-            href="#clientes" 
-            className={`${baseLinkClass} ${activeTab === "clientes" ? activeLinkClass : defaultLinkClass}`}
-          >
-            Clientes
-          </a>
+    <div className="w-full bg-blue-50 py-5 sticky top-[70px] z-40">
+      <div className="max-w-7xl mx-auto px-6">
+
+        {/* CONTENEDOR BLANCO CENTRADO */}
+        <div className="bg-white rounded-full shadow-lg py-3 px-6 mx-auto max-w-5xl">
+
+          {/* TABS CENTRADAS */}
+          <div className="flex justify-center gap-8">
+
+            {sections.map((id) => (
+              <a
+                key={id}
+                href={`#${id}`}
+                className={`${baseLinkClass} ${
+                  activeTab === id ? activeLinkClass : defaultLinkClass
+                }`}
+              >
+                {id.charAt(0).toUpperCase() + id.slice(1)}
+              </a>
+            ))}
+
+          </div>
         </div>
       </div>
     </div>
