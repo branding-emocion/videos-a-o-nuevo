@@ -8,6 +8,7 @@ import VideosExamples from "../components/VideosExamples";
 import Plans from "../components/Plans";
 import Experience from "../components/Experience";
 import Clients from "../components/Clients";
+import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
       <Plans />
       <Experience />
       <Clients />
+      <Contact />
       <Footer />
     </main>
   );
